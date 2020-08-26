@@ -1,7 +1,7 @@
 <template>
   <q-page class="">
     <q-list bordered separator class="rounded-borders">
-      <q-item clickable v-ripple v-for="(role, index) in roles" :key="role.id">
+      <q-item clickable v-ripple v-for="(role, index) in roles" :key="role.id" @click="editRole(role)">
         <q-item-section>
           <q-item-label>{{role.name}}</q-item-label>
         </q-item-section>
@@ -19,28 +19,24 @@
 const data = [
   {
     id: 1,
-    name: 'Junior Programmer',
+    name: 'Account',
   },
   {
     id: 2,
-    name: 'Junior Programmer',
+    name: 'Graphic Designer',
   },
   {
     id: 3,
-    name: 'Project Manager',
+    name: 'Junior Programmer',
   },
   {
     id: 4,
-    name: 'Graphic Designer',
+    name: 'Project Manager',
   },
   {
     id: 5,
     name: 'Senior Programmer',
   },
-  {
-    id: 6,
-    name: 'Sharon',
-  }
 ]
 
 export default {
@@ -53,6 +49,11 @@ export default {
   methods: {
     createRole() {
       this.$router.push('/create-role');
+    },
+    editRole(role) {
+      this.$router.push({ path: '/edit-role', query: {
+          role: role,
+        }});
     }
   }
 }
