@@ -1,58 +1,13 @@
 <template>
   <q-page class="">
     <q-list bordered separator class="rounded-borders">
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple v-for="(user, index) in users" :key="user.id" >
         <q-item-section avatar>
-          <img height="35" width="35" src="~assets/albert.png" />
+          <q-img height="35" width="35" :src="getIcon(user.icon)" />
         </q-item-section>
         <q-item-section>
-          <q-item-label>Albert</q-item-label>
-          <q-item-label caption>Junior Programmer</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <img height="35" width="35" src="~assets/brian.png" >
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Brian</q-item-label>
-          <q-item-label caption>Junior Programmer</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <img height="35" width="35" src="~assets/john.png" >
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>John</q-item-label>
-          <q-item-label caption>Project Manager</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <img height="35" width="35" src="~assets/kate.png" >
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Kate</q-item-label>
-          <q-item-label caption>Graphic Designer</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <img height="35" width="35" src="~assets/mark.png" >
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Mark</q-item-label>
-          <q-item-label caption>Senior Programmer</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section avatar>
-          <img height="35" width="35" src="~assets/sharon.png" >
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>Sharon</q-item-label>
-          <q-item-label caption>Account</q-item-label>
+          <q-item-label>{{user.name}}</q-item-label>
+          <q-item-label caption>{{user.role}}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -60,7 +15,57 @@
 </template>
 
 <script>
+
+const data = [
+  {
+    id: 1,
+    name: 'Albert',
+    role: 'Junior Programmer',
+    icon: 'albert.png'
+  },
+  {
+    id: 2,
+    name: 'Brian',
+    role: 'Junior Programmer',
+    icon: 'brian.png'
+  },
+  {
+    id: 3,
+    name: 'John',
+    role: 'Project Manager',
+    icon: 'john.png'
+  },
+  {
+    id: 4,
+    name: 'Kate',
+    role: 'Graphic Designer',
+    icon: 'kate.png'
+  },
+  {
+    id: 5,
+    name: 'Mark',
+    role: 'Senior Programmer',
+    icon: 'mark.png'
+  },
+  {
+    id: 6,
+    name: 'Sharon',
+    role: 'Account',
+    icon: 'sharon.png'
+  }
+]
+
 export default {
-  name: 'Users'
+  name: 'Users',
+  data() {
+    return {
+      users: data,
+    }
+  },
+  methods: {
+    getIcon(icon) {
+      return require('../assets/' + icon);
+    }
+  }
 }
 </script>

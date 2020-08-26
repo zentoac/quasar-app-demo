@@ -1,29 +1,9 @@
 <template>
   <q-page class="">
     <q-list bordered separator class="rounded-borders">
-      <q-item clickable v-ripple>
+      <q-item clickable v-ripple v-for="(role, index) in roles" :key="role.id">
         <q-item-section>
-          <q-item-label>Account</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>Graphic Designer</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>Project Manager</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>Junior Programmer</q-item-label>
-        </q-item-section>
-      </q-item>
-      <q-item clickable v-ripple>
-        <q-item-section>
-          <q-item-label>Senior Programmer</q-item-label>
+          <q-item-label>{{role.name}}</q-item-label>
         </q-item-section>
       </q-item>
     </q-list>
@@ -31,7 +11,40 @@
 </template>
 
 <script>
+
+const data = [
+  {
+    id: 1,
+    name: 'Junior Programmer',
+  },
+  {
+    id: 2,
+    name: 'Junior Programmer',
+  },
+  {
+    id: 3,
+    name: 'Project Manager',
+  },
+  {
+    id: 4,
+    name: 'Graphic Designer',
+  },
+  {
+    id: 5,
+    name: 'Senior Programmer',
+  },
+  {
+    id: 6,
+    name: 'Sharon',
+  }
+]
+
 export default {
-  name: 'Roles'
+  name: 'Roles',
+  data() {
+    return {
+      roles: data,
+    }
+  }
 }
 </script>
