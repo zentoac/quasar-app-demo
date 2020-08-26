@@ -7,6 +7,10 @@
         </q-item-section>
       </q-item>
     </q-list>
+
+    <q-page-sticky position="bottom-right" :offset="[18, 18]">
+      <q-btn @click="createRole()" fab icon="add" color="primary" />
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -44,6 +48,11 @@ export default {
   data() {
     return {
       roles: data,
+    }
+  },
+  methods: {
+    createRole() {
+      this.$router.push('/create-role');
     }
   }
 }
