@@ -34,11 +34,14 @@ export default {
   name: 'EditRole',
   data() {
     return {
-
+      role: {
+        name: this._role.name,
+        description: this._role.description,
+      },
     }
   },
   props: [
-    'role',
+    '_role',
   ],
   methods: {
 
