@@ -19,28 +19,24 @@
 const data = [
   {
     id: 1,
-    name: 'Junior Programmer',
+    name: 'Account',
   },
   {
     id: 2,
-    name: 'Junior Programmer',
+    name: 'Graphic Designer',
   },
   {
     id: 3,
-    name: 'Project Manager',
+    name: 'Junior Programmer',
   },
   {
     id: 4,
-    name: 'Graphic Designer',
+    name: 'Project Manager',
   },
   {
     id: 5,
     name: 'Senior Programmer',
   },
-  {
-    id: 6,
-    name: 'Sharon',
-  }
 ]
 
 export default {
