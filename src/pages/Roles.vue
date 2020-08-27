@@ -1,17 +1,19 @@
 <template>
-  <q-page class="">
-    <q-list bordered separator class="rounded-borders">
-      <q-item clickable v-ripple v-for="(role, index) in roles" :key="role.id" @click="editRole(role)">
-        <q-item-section>
-          <q-item-label>{{role.name}}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
+  <q-pull-to-refresh @refresh="refresh">
+    <q-page class="">
+      <q-list bordered separator class="rounded-borders">
+        <q-item clickable v-ripple v-for="(role, index) in roles" :key="role.id" @click="editRole(role)">
+          <q-item-section>
+            <q-item-label>{{role.name}}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
 
-    <q-page-sticky position="bottom-right" :offset="[18, 18]">
-      <q-btn @click="createRole()" fab icon="add" color="primary" />
-    </q-page-sticky>
-  </q-page>
+      <q-page-sticky position="bottom-right" :offset="[18, 18]">
+        <q-btn @click="createRole()" fab icon="add" color="primary" />
+      </q-page-sticky>
+    </q-page>
+  </q-pull-to-refresh>
 </template>
 
 <script>
@@ -27,6 +29,11 @@ export default {
     this.getRoles();
   },
   methods: {
+    refresh(done) {
+      this.roles = null;
+      this.getRoles();
+      done();
+    },
     getRoles() {
       this.$q.loading.show();
       this.$axios.get('/roles').then(response => {
