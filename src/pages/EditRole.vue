@@ -11,7 +11,7 @@
         label="Name"
         hint="Give a name to new role"
         error-message="Insert a valid name"
-        :rules="[_required, _maxLength20]"
+        :rules="[_required, _maxLength50]"
       />
 
       <q-input
@@ -21,7 +21,7 @@
         label="Description"
         hint="Give a description to new role"
         error-message="Insert a valid description"
-        :rules="[_maxLength100]"
+        :rules="[_maxLength250]"
       />
 
       <div>
@@ -34,7 +34,7 @@
 
 <script>
 
-import {_required, _maxLength20, _maxLength100} from '../validations';
+import {_required, _maxLength50, _maxLength250} from '../validations';
 
 export default {
   name: 'EditRole',
@@ -51,8 +51,8 @@ export default {
   },
   methods: {
     _required,
-    _maxLength20,
-    _maxLength100,
+    _maxLength50,
+    _maxLength250,
     onSubmit () {
       this.$q.notify({
         color: 'green-5',

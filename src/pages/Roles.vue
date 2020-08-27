@@ -50,7 +50,7 @@ export default {
           color: 'red-5',
           textColor: 'white',
           icon: 'error',
-          message: 'Server error, check your connection!'
+          message: 'There was an error processing your request!'
         })
       }
     },
