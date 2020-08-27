@@ -35,14 +35,14 @@ export default {
   data() {
     return {
       role: {
-        name: this._role.name,
-        description: this._role.description,
+        name: null,
+        description: null,
       },
     }
   },
-  props: [
-    '_role',
-  ],
+  created() {
+    this.role = this.$route.query.role;
+  },
   methods: {
 
     onSubmit () {
