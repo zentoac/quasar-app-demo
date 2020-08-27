@@ -6,6 +6,9 @@
           <q-item-section>
             <q-item-label>{{role.name}}</q-item-label>
           </q-item-section>
+          <q-item-section side>
+            <q-icon @click.stop.capture="deletePrompt(role)" name="delete" size="sm" color="negative" />
+          </q-item-section>
         </q-item>
       </q-list>
 
@@ -61,6 +64,41 @@ export default {
       this.$router.push({ path: '/edit-role', query: {
           role: role,
         }});
+    },
+    deletePrompt(role) {
+      this.$q.dialog({
+        title: 'Delete role',
+        message: 'Would you like to delete the role ' + role.name +'?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.deleteRole(role);
+      })
+    },
+    async deleteRole(role) {
+
+      try {
+        const response = await this.$axios.delete(`roles/${role.id}`);
+        console.log(response);
+        if(response.statusText === 'OK') {
+          this.getRoles();
+          this.$q.notify({
+            color: 'green-5',
+            textColor: 'white',
+            icon: 'check',
+            message: 'You successfully deleted the role ' + role.name + '!'
+          })
+        }
+      }
+      catch (error) {
+        console.log(error);
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'error',
+          message: 'There was an error processing your request!'
+        })
+      }
     }
   }
 }
