@@ -34,15 +34,25 @@ export default {
       this.getRoles();
       done();
     },
-    getRoles() {
+    async getRoles() {
       this.$q.loading.show();
-      this.$axios.get('/roles').then(response => {
-        if(response.statusText !== 'OK') {
-          console.log(response)
+      try {
+        const response = await this.$axios.get('/roles');
+        if(response.statusText === 'OK') {
+          this.$q.loading.hide();
+          this.roles = response.data;
         }
+      }
+      catch (error) {
         this.$q.loading.hide();
-        this.roles = response.data;
-      })
+        console.log(error);
+        this.$q.notify({
+          color: 'red-5',
+          textColor: 'white',
+          icon: 'error',
+          message: 'Server error, check your connection!'
+        })
+      }
     },
     createRole() {
       this.$router.push('/create-role');
