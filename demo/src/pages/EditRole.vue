@@ -10,6 +10,8 @@
         v-model="role.name"
         label="Name"
         hint="Give a name to new role"
+        error-message="Insert a valid name"
+        :rules="[_required, _maxLength20]"
       />
 
       <q-input
@@ -18,6 +20,8 @@
         v-model="role.description"
         label="Description"
         hint="Give a description to new role"
+        error-message="Insert a valid description"
+        :rules="[_maxLength100]"
       />
 
       <div>
@@ -29,6 +33,8 @@
 </template>
 
 <script>
+
+import {_required, _maxLength20, _maxLength100} from '../validations';
 
 export default {
   name: 'EditRole',
@@ -44,7 +50,9 @@ export default {
     this.role = this.$route.query.role;
   },
   methods: {
-
+    _required,
+    _maxLength20,
+    _maxLength100,
     onSubmit () {
       this.$q.notify({
         color: 'green-5',
@@ -57,6 +65,14 @@ export default {
     onReset () {
       this.role.name = null
       this.role.description = null
+    }
+  },
+  computed: {
+    errors() {
+      return {
+        name: this.role.name && this.role.name.length > 0 && this.role.name.length < 50,
+        description: !this.role.description || (this.role.description && this.role.description.length < 100),
+      }
     }
   }
 }
