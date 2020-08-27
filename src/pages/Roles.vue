@@ -16,37 +16,27 @@
 
 <script>
 
-const data = [
-  {
-    id: 1,
-    name: 'Account',
-  },
-  {
-    id: 2,
-    name: 'Graphic Designer',
-  },
-  {
-    id: 3,
-    name: 'Junior Programmer',
-  },
-  {
-    id: 4,
-    name: 'Project Manager',
-  },
-  {
-    id: 5,
-    name: 'Senior Programmer',
-  },
-]
-
 export default {
   name: 'Roles',
   data() {
     return {
-      roles: data,
+      roles: null,
     }
   },
+  created() {
+    this.getRoles();
+  },
   methods: {
+    getRoles() {
+      this.$q.loading.show();
+      this.$axios.get('/roles').then(response => {
+        if(response.statusText !== 'OK') {
+          console.log(response)
+        }
+        this.$q.loading.hide();
+        this.roles = response.data;
+      })
+    },
     createRole() {
       this.$router.push('/create-role');
     },
