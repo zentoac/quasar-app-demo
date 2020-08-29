@@ -3,8 +3,8 @@
     <q-header elevated>
       <q-toolbar>
 
-        <q-toolbar-title>
-          Quasar Demo App
+        <q-toolbar-title class="text-center">
+          {{ pageTitle() }}
         </q-toolbar-title>
 
       </q-toolbar>
@@ -52,6 +52,11 @@ export default {
   data () {
     return {
       menus: menus
+    }
+  },
+  methods: {
+    pageTitle() {
+        return this.menus.find(item => item.to === this.$route.path).title.toUpperCase();
     }
   }
 }
