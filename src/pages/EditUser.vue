@@ -40,6 +40,26 @@
       />
 
       <div>
+        <q-file
+          filled
+          v-model="user.icon"
+          label="Icon"
+          hint="Upload an icon for the user"
+          accept=".jpg, image/*"
+          max-file-size="1000000"
+          error-message="Select an image"
+          :rules="[]"
+          ref="icon"
+        >
+          <template v-slot:append>
+            <q-avatar>
+              <img :src="uploadedIcon">
+            </q-avatar>
+          </template>
+        </q-file>
+      </div>
+
+      <div>
         <q-btn @click="onSubmit" label="Save" type="button" color="primary" class="full-width"/>
         <q-btn label="Reset" type="reset" color="primary" flat class="full-width" />
       </div>
@@ -55,6 +75,7 @@ export default {
   name: 'EditUser',
   data() {
     return {
+      uploadedIcon: null,
       user: {
         name: null,
         email: null,
@@ -65,7 +86,11 @@ export default {
     }
   },
   created() {
-    this.user = this.$route.query.user;
+    this.uploadedIcon = this.$route.query.user.icon;
+    this.user = {
+      ...this.$route.query.user,
+      icon: null
+    };
     this.getRoles();
   },
   methods: {
@@ -115,10 +140,16 @@ export default {
         return;
       }
 
+      let base64 = null;
+      if(this.user.icon) {
+        base64 = await this.getBase64(this.user.icon);
+      }
+
       this.$q.loading.show();
       try {
-        const response = await this.$axios.put('/users', this.user);
+        const response = await this.$axios.put('/users', Object.assign({}, this.user, {icon: base64}));
         if(response.statusText === 'OK') {
+          this.uploadedIcon = response.data.icon;
           this.$q.loading.hide();
           this.$q.notify({
             color: 'green-5',
@@ -144,6 +175,15 @@ export default {
       this.user.name = null;
       this.user.email = null;
       this.user.role = null;
+    },
+
+    getBase64(file) {
+      return new Promise(function(resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      })
     }
   }
 }
