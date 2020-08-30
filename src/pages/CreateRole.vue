@@ -8,7 +8,7 @@
         filled
         v-model="role.name"
         label="Name"
-        hint="Give a name to new role"
+        hint="Give a name to the new role"
         error-message="Insert a valid name"
         :rules="[_required, _maxLength50]"
         ref="name"
@@ -19,7 +19,7 @@
         type="textarea"
         v-model="role.description"
         label="Description"
-        hint="Give a description to new role"
+        hint="Give a description to the new role"
         error-message="Insert a valid description"
         :rules="[_maxLength250]"
         ref="description"

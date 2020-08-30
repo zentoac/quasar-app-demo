@@ -8,7 +8,7 @@
         filled
         v-model="user.name"
         label="Name"
-        hint="Give a name to new user"
+        hint="Give a name to the new user"
         error-message="Insert a valid name"
         :rules="[_required, _maxLength50]"
         ref="name"
@@ -19,7 +19,7 @@
         type="email"
         v-model="user.email"
         label="Email"
-        hint="Give an email to new user"
+        hint="Give an email to the new user"
         error-message="Insert a valid email"
         :rules="[_email, _required, _maxLength50]"
         ref="email"
@@ -30,7 +30,7 @@
         type="textarea"
         v-model="user.role"
         label="Role"
-        hint="Give a role to new user"
+        hint="Give a role to the new user"
         error-message="Select a role"
         :rules="[_required]"
         ref="role"
@@ -38,6 +38,20 @@
         map-options
         emit-value
       />
+
+      <div>
+        <q-file
+          filled
+          v-model="user.icon"
+          label="Icon"
+          hint="Upload an icon for the new user"
+          accept=".jpg, image/*"
+          max-file-size="1000000"
+          error-message="Select an image"
+          :rules="[_required]"
+          ref="icon"
+        />
+      </div>
 
       <div>
         <q-btn @click="onSubmit" label="Save" type="button" color="primary" class="full-width"/>
@@ -103,7 +117,8 @@ export default {
       this.$refs.name.validate();
       this.$refs.email.validate();
       this.$refs.role.validate();
-      if(this.$refs.name.hasError || this.$refs.email.hasError || this.$refs.role.hasError) {
+      this.$refs.icon.validate();
+      if(this.$refs.name.hasError || this.$refs.email.hasError || this.$refs.role.hasError || this.$refs.icon.hasError) {
         this.$q.notify({
           color: 'red-5',
           textColor: 'white',
@@ -113,9 +128,11 @@ export default {
         return;
       }
 
+      const base64 = await this.getBase64(this.user.icon);
+
       this.$q.loading.show();
       try {
-        const response = await this.$axios.post('/users', this.user);
+        const response = await this.$axios.post('/users', Object.assign({}, this.user, {icon: base64}));
         if(response.statusText === 'OK') {
           this.$q.loading.hide();
           if(response.data === 'existing') {
@@ -152,6 +169,15 @@ export default {
       this.user.name = null;
       this.user.email = null;
       this.user.role = null;
+    },
+
+    getBase64(file) {
+      return new Promise(function(resolve, reject) {
+        const reader = new FileReader();
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      })
     }
   }
 }
