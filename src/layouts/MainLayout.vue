@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     pageTitle() {
-        return this.menus.find(item => item.to === this.$route.path).title.toUpperCase();
+        return this.$route.meta.title.toUpperCase();
     }
   }
 }
