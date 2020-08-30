@@ -19,6 +19,21 @@ const routes = [
         }
       },
       {
+        path: '/create-user',
+        component: () => import('pages/CreateUser.vue'),
+        meta: {
+          title: 'Create User',
+        }
+      },
+      {
+        path: '/edit-user',
+        component: () => import('pages/EditUser.vue'),
+        props: route => ({ user: route.query.user }),
+        meta: {
+          title: 'Edit User',
+        }
+      },
+      {
         path: '/roles',
         component: () => import('pages/Roles.vue'),
         meta: {
