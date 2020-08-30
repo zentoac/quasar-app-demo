@@ -1,11 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar class="">
 
-        <q-toolbar-title class="text-center">
+        <div class="absolute-left flex">
+          <q-btn v-if="canGoBack()" size="md" icon="navigate_before" @click="goBack()" flat />
+        </div>
+
+        <q-toolbar-title class="absolute-center">
           {{ pageTitle() }}
         </q-toolbar-title>
+
+        <div class="absolute-right flex">
+
+        </div>
 
       </q-toolbar>
     </q-header>
@@ -56,7 +64,13 @@ export default {
   },
   methods: {
     pageTitle() {
-        return this.menus.find(item => item.to === this.$route.path).title.toUpperCase();
+      return this.$route.meta.title.toUpperCase();
+    },
+    canGoBack() {
+      return !this.menus.find(item => item.to === this.$route.path)
+    },
+    goBack() {
+      this.$router.go(-1);
     }
   }
 }
