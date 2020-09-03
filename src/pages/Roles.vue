@@ -21,6 +21,9 @@
 
 <script>
 
+import apiParser from "src/api/parser";
+import roleApi from "src/api/roles";
+
 export default {
   name: 'Roles',
   data() {
@@ -38,24 +41,7 @@ export default {
       done();
     },
     async getRoles() {
-      this.$q.loading.show();
-      try {
-        const response = await this.$axios.get('/roles');
-        if(response.statusText === 'OK') {
-          this.$q.loading.hide();
-          this.roles = response.data;
-        }
-      }
-      catch (error) {
-        this.$q.loading.hide();
-        console.log(error);
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'error',
-          message: 'There was an error processing your request!'
-        })
-      }
+      this.roles = await apiParser.parseResponse(roleApi.getRoles());
     },
     createRole() {
       this.$router.push('/create-role');
@@ -76,29 +62,14 @@ export default {
       })
     },
     async deleteRole(role) {
-
-      try {
-        const response = await this.$axios.delete(`roles/${role.id}`);
-        console.log(response);
-        if(response.statusText === 'OK') {
-          this.getRoles();
-          this.$q.notify({
-            color: 'green-5',
-            textColor: 'white',
-            icon: 'check',
-            message: 'You successfully deleted the role ' + role.name + '!'
-          })
-        }
-      }
-      catch (error) {
-        console.log(error);
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'error',
-          message: 'There was an error processing your request!'
-        })
-      }
+      await apiParser.parseResponse(roleApi.deleteRole(role.id));
+      this.getRoles();
+      this.$q.notify({
+        color: 'green-5',
+        textColor: 'white',
+        icon: 'check',
+        message: 'You successfully deleted the role ' + role.name + '!'
+      })
     }
   }
 }

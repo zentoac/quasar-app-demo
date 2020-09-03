@@ -70,6 +70,9 @@
 <script>
 
   import {_email, _required, _maxLength50} from '../validations';
+  import apiParser from "src/api/parser";
+  import userApi from "src/api/users";
+  import roleApi from "src/api/roles";
 
 export default {
   name: 'EditUser',
@@ -102,17 +105,15 @@ export default {
 
       try {
         this.rolesLoading = true;
-        const response = await this.$axios.get('/roles');
-        if(response.statusText === 'OK') {
-          this.rolesLoading = false;
-          this.roles = response.data.map(item => {
-            return {
-              label: item.name,
-              value: item.id,
-            }
-          });
-          this.user.role = this.roles.find(item => item.label === this.user.role).value;
-        }
+        const response = await apiParser.parseResponse(roleApi.getRoles());
+        this.roles = response.map(item => {
+          return {
+            label: item.name,
+            value: item.id,
+          }
+        });
+        this.user.role = this.roles.find(item => item.label === this.user.role).value;
+        this.rolesLoading = false;
       }
       catch (error) {
         this.rolesLoading = false;
@@ -145,28 +146,23 @@ export default {
         base64 = await this.getBase64(this.user.icon);
       }
 
-      this.$q.loading.show();
-      try {
-        const response = await this.$axios.put('/users', Object.assign({}, this.user, {icon: base64}));
-        if(response.statusText === 'OK') {
-          this.uploadedIcon = response.data.icon;
-          this.$q.loading.hide();
-          this.$q.notify({
-            color: 'green-5',
-            textColor: 'white',
-            icon: 'check',
-            message: 'You successfully updated the user ' + this.user.name + '!'
-          })
-        }
-      }
-      catch (error) {
-        this.$q.loading.hide();
-        console.log(error);
+      const response = await apiParser.parseResponse(userApi.updateUser(Object.assign({}, this.user, {icon: base64})));
+      if(response === 'existing') {
         this.$q.notify({
-          color: 'red-5',
+          color: 'orange-6',
           textColor: 'white',
-          icon: 'error',
-          message: 'There was an error processing your request!'
+          icon: 'warning',
+          message: 'The email is already in use!'
+        })
+      }
+      else {
+        this.uploadedIcon = response.icon;
+        this.$q.loading.hide();
+        this.$q.notify({
+          color: 'green-5',
+          textColor: 'white',
+          icon: 'check',
+          message: 'You successfully updated the user ' + this.user.name + '!'
         })
       }
     },

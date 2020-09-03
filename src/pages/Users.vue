@@ -26,6 +26,9 @@
 
 <script>
 
+import userApi from '../api/users';
+import apiParser from '../api/parser';
+
 export default {
   name: 'Users',
   data() {
@@ -43,24 +46,7 @@ export default {
       done();
     },
     async getUsers() {
-      this.$q.loading.show();
-      try {
-        const response = await this.$axios.get('/users');
-        if(response.statusText === 'OK') {
-          this.$q.loading.hide();
-          this.users = response.data;
-        }
-      }
-      catch (error) {
-        this.$q.loading.hide();
-        console.log(error);
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'error',
-          message: 'There was an error processing your request!'
-        })
-      }
+      this.users = await apiParser.parseResponse(userApi.getUsers());
     },
     createUser() {
       this.$router.push('/create-user');
@@ -81,29 +67,14 @@ export default {
       })
     },
     async deleteUser(user) {
-
-      try {
-        const response = await this.$axios.delete(`users/${user.id}`);
-        console.log(response);
-        if(response.statusText === 'OK') {
-          this.getUsers();
-          this.$q.notify({
-            color: 'green-5',
-            textColor: 'white',
-            icon: 'check',
-            message: 'You successfully deleted the user ' + user.name + '!'
-          })
-        }
-      }
-      catch (error) {
-        console.log(error);
-        this.$q.notify({
-          color: 'red-5',
-          textColor: 'white',
-          icon: 'error',
-          message: 'There was an error processing your request!'
-        })
-      }
+      await apiParser.parseResponse(userApi.deleteUser(user.id));
+      this.getUsers();
+      this.$q.notify({
+        color: 'green-5',
+        textColor: 'white',
+        icon: 'check',
+        message: 'You successfully deleted the user ' + user.name + '!'
+      })
     }
   }
 }

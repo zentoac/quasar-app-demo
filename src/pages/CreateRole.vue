@@ -36,6 +36,8 @@
 <script>
 
 import {_required, _maxLength50, _maxLength250} from '../validations';
+import apiParser from "src/api/parser";
+import roleApi from "src/api/roles";
 
 export default {
   name: 'CreateRole',
@@ -66,27 +68,21 @@ export default {
         return;
       }
 
-      this.$q.loading.show();
-      try {
-        const response = await this.$axios.post('/roles', this.role);
-        if(response.statusText === 'OK') {
-          this.$q.loading.hide();
-          this.$q.notify({
-            color: 'green-5',
-            textColor: 'white',
-            icon: 'check',
-            message: 'You successfully created the new role ' + this.role.name + '!'
-          })
-        }
-      }
-      catch (error) {
-        this.$q.loading.hide();
-        console.log(error);
+      const response = await apiParser.parseResponse(roleApi.createRole(this.role));
+      if(response === 'existing') {
         this.$q.notify({
-          color: 'red-5',
+          color: 'orange-6',
           textColor: 'white',
-          icon: 'error',
-          message: 'There was an error processing your request!'
+          icon: 'warning',
+          message: 'The name is already in use!'
+        })
+      }
+      else {
+        this.$q.notify({
+          color: 'green-5',
+          textColor: 'white',
+          icon: 'check',
+          message: 'You successfully created the new role ' + this.role.name + '!'
         })
       }
     },
