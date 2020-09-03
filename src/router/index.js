@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 
 import routes from './routes'
+import userStore from '../store/user';
 
 Vue.use(VueRouter)
 
@@ -27,7 +28,7 @@ export default function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    if(to.path !== '/login') {
+    if(to.path !== '/login' && !userStore.isLoggedIn()) {
       next({ path: '/login' });
     }
     next();

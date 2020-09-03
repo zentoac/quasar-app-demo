@@ -39,6 +39,7 @@
 <script>
 
 import TabMenu from "components/TabMenu";
+import userStore from '../store/user';
 
 const menus = [
   {
@@ -94,7 +95,7 @@ export default {
       });
     },
     isLoggedIn() {
-      return false;
+      return userStore.isLoggedIn();
     }
   }
 }
