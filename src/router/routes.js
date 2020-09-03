@@ -5,6 +5,13 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       {
+        path: '/login',
+        component: () => import('pages/Login.vue'),
+        meta: {
+          title: 'Login',
+        }
+      },
+      {
         path: '',
         component: () => import('pages/Index.vue'),
         meta: {

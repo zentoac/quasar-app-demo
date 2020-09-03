@@ -19,13 +19,13 @@
     </q-header>
 
     <div v-if="!offline">
-      <q-footer v-if="!offline" elevated>
-        <tab-menu :menus="menus" />
-      </q-footer>
-
       <q-page-container>
         <router-view  />
       </q-page-container>
+
+      <q-footer v-if="!offline && isLoggedIn()" elevated>
+        <tab-menu :menus="menus" />
+      </q-footer>
     </div>
 
     <div v-if="offline" class="flex fullscreen justify-center content-center bg-red-2">
@@ -92,6 +92,9 @@ export default {
       window.addEventListener('online', () => {
         this.offline = false;
       });
+    },
+    isLoggedIn() {
+      return false;
     }
   }
 }

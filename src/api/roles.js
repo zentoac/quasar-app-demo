@@ -1,21 +1,21 @@
 import {axiosInstance} from '../boot/axios'
 
-const target = '/roles';
+const endpoint = '/roles';
 
 const getRoles = () => {
-  return axiosInstance.get(`${target}`);
+  return axiosInstance.get(`${endpoint}`);
 }
 
 const createRole = (user) => {
-  return axiosInstance.post(`${target}`, user);
+  return axiosInstance.post(`${endpoint}`, user);
 }
 
 const updateRole = (user) => {
-  return axiosInstance.put(`${target}`, user);
+  return axiosInstance.put(`${endpoint}`, user);
 }
 
 const deleteRole = (id) => {
-  return axiosInstance.delete(`${target}/${id}`);
+  return axiosInstance.delete(`${endpoint}/${id}`);
 }
 
 export default {

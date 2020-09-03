@@ -1,21 +1,21 @@
 import {axiosInstance} from '../boot/axios'
 
-const target = '/users';
+const endpoint = '/users';
 
 const getUsers = () => {
-  return axiosInstance.get(`${target}`);
+  return axiosInstance.get(`${endpoint}`);
 }
 
 const createUser = (user) => {
-  return axiosInstance.post(`${target}`, user);
+  return axiosInstance.post(`${endpoint}`, user);
 }
 
 const updateUser = (user) => {
-  return axiosInstance.put(`${target}`, user);
+  return axiosInstance.put(`${endpoint}`, user);
 }
 
 const deleteUser = (id) => {
-  return axiosInstance.delete(`${target}/${id}`);
+  return axiosInstance.delete(`${endpoint}/${id}`);
 }
 
 export default {
