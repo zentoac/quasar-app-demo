@@ -31,6 +31,9 @@ export default function (/* { store, ssrContext } */) {
     if(to.path !== '/login' && !userStore.isLoggedIn()) {
       next({ path: '/login' });
     }
+    if(to.path === '/login' && userStore.isLoggedIn()) {
+      next({ path: '/' });
+    }
     next();
   })
 

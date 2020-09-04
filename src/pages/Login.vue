@@ -46,6 +46,7 @@
 import {_required, _email} from '../validations';
 import authApi from '../api/auth';
 import apiParser from '../api/parser';
+import userStore from '../store/user';
 
 export default {
   name: 'Login',
@@ -85,7 +86,8 @@ export default {
         })
       }
       else {
-        console.log('You are logged in!')
+        userStore.set(response.token);
+        this.$router.push({ path: '/'});
       }
     }
   }

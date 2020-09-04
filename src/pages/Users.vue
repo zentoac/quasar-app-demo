@@ -53,8 +53,8 @@ export default {
     },
     editUser(user) {
       this.$router.push({ path: '/edit-user', query: {
-          user: user,
-        }});
+        user: user,
+      }});
     },
     deletePrompt(user) {
       this.$q.dialog({

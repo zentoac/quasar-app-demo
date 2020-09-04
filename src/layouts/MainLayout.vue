@@ -12,7 +12,7 @@
         </q-toolbar-title>
 
         <div class="absolute-right flex">
-
+          <q-btn v-if="isLoggedIn()" size="md" icon="logout" @click="logoutPrompt()" flat />
         </div>
 
       </q-toolbar>
@@ -40,6 +40,8 @@
 
 import TabMenu from "components/TabMenu";
 import userStore from '../store/user';
+import apiParser from "src/api/parser";
+import authApi from "src/api/auth";
 
 const menus = [
   {
@@ -79,7 +81,7 @@ export default {
       return this.$route.meta.title.toUpperCase();
     },
     canGoBack() {
-      return !this.menus.find(item => item.to === this.$route.path)
+      return this.isLoggedIn() && !this.menus.find(item => item.to === this.$route.path)
     },
     goBack() {
       this.$router.go(-1);
@@ -96,6 +98,22 @@ export default {
     },
     isLoggedIn() {
       return userStore.isLoggedIn();
+    },
+    logoutPrompt() {
+      this.$q.dialog({
+        title: 'Logout',
+        message: 'Would you like to logout?',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        this.logout();
+      })
+
+    },
+    async logout() {
+      await apiParser.parseResponse(authApi.logout());
+      userStore.remove();
+      this.$router.push({ path: '/login'});
     }
   }
 }

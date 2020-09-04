@@ -1,23 +1,52 @@
+import JwtDecode from 'jwt-decode';
+
 const isLoggedIn = () => {
-  return false;
+  try {
+    if(localStorage.getItem('user')) {
+      return true;
+    }
+    return false;
+  }
+  catch (error) {
+    console.log(error);
+  }
+}
+
+const set = (data) => {
+  try {
+    localStorage.setItem('token', data);
+    localStorage.setItem('user', JSON.stringify(JwtDecode(data)));
+  }
+  catch (error) {
+    console.log(error);
+  }
 }
 
 const get = () => {
-  return {
-    email: "mark@supercompany.com",
-    icon: "http://10.0.2.2:8082/assets/OT3LD2YmnSO0z2dW.png",
-    id: 5,
-    name: "Mark Wilson",
-    role: "Senior Programmer",
+  try {
+    if(localStorage.getItem('user')) {
+      return JSON.parse(localStorage.getItem('user'));
+    }
+    return false;
+  }
+  catch (error) {
+    console.log(error);
   }
 }
 
 const remove = () => {
-  return true;
+  try {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+  }
+  catch (error) {
+    console.log(error);
+  }
 }
 
 export default {
   isLoggedIn,
+  set,
   get,
   remove,
 }
