@@ -1,9 +1,10 @@
 const settings = {
     dev: {
-        apiUrl: 'http://10.0.2.2:8082/api',
+        // apiUrl: 'http://10.0.2.2:8082/api',
+        apiUrl: 'http://80.211.111.156:8084/api',
     },
     prod: {
-        apiUrl: 'http://80.211.93.227:8080/api',
+        apiUrl: 'http://80.211.111.156:8084/api',
     }
 }
 
