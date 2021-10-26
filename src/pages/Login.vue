@@ -47,6 +47,7 @@ import {_required, _email} from '../validations';
 import authApi from '../api/auth';
 import apiParser from '../api/parser';
 import userStore from '../store/user';
+import {LocalStorage} from "quasar";
 
 export default {
   name: 'Login',
@@ -77,7 +78,7 @@ export default {
       }
 
       const response = await apiParser.parseResponse(authApi.login(this.auth));
-      if(response === 'error') {
+      if(response.status === 'fail') {
         this.$q.notify({
           color: 'orange-6',
           textColor: 'white',
@@ -86,7 +87,7 @@ export default {
         })
       }
       else {
-        userStore.set(response.token);
+        userStore.set(response.data.token);
         this.$router.push({ path: '/'});
       }
     }

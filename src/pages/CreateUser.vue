@@ -94,7 +94,7 @@ export default {
       try {
         this.rolesLoading = true;
         const response = await apiParser.parseResponse(roleApi.getRoles());
-        this.roles = response.map(item => {
+        this.roles = response.data.map(item => {
           return {
             label: item.name,
             value: item.id,

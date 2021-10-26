@@ -1,8 +1,9 @@
+import Vue from "vue";
 import JwtDecode from 'jwt-decode';
 
 const isLoggedIn = () => {
   try {
-    if(localStorage.getItem('user')) {
+    if(localStorage.getItem('token')) {
       return true;
     }
     return false;
@@ -15,6 +16,7 @@ const isLoggedIn = () => {
 const set = (data) => {
   try {
     localStorage.setItem('token', data);
+    Vue.prototype.$axios.defaults.headers.common['Authorization'] = 'Bearer ' + data;
     localStorage.setItem('user', JSON.stringify(JwtDecode(data)));
   }
   catch (error) {
@@ -38,6 +40,7 @@ const remove = () => {
   try {
     localStorage.removeItem('user');
     localStorage.removeItem('token');
+    delete Vue.prototype.$axios.defaults.headers.common['Authorization'];
   }
   catch (error) {
     console.log(error);

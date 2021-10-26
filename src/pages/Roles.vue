@@ -41,7 +41,8 @@ export default {
       done();
     },
     async getRoles() {
-      this.roles = await apiParser.parseResponse(roleApi.getRoles());
+      const response = await apiParser.parseResponse(roleApi.getRoles());
+      this.roles = response.data;
     },
     createRole() {
       this.$router.push('/create-role');

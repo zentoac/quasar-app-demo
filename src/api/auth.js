@@ -1,35 +1,21 @@
-import {axiosInstance} from '../boot/axios'
+import Vue from "vue";
 
 const endpoint = '/auth';
 
 const login = (data) => {
-  return axiosInstance.post(`${endpoint}/login`, data, {
-    headers: {}
-  });
+  return Vue.prototype.$axios.post(`${endpoint}/login`, data);
 }
 
 const logout = () => {
-  return axiosInstance.get(`${endpoint}/logout`, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    }
-  });
+  return Vue.prototype.$axios.post(`${endpoint}/logout`);
 }
 
 const refresh = () => {
-  return axiosInstance.get(`${endpoint}/refresh`, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    }
-  });
+  return Vue.prototype.$axios.get(`${endpoint}/refresh`)
 }
 
 const user = () => {
-  return axiosInstance.get(`${endpoint}/user`, {
-    headers: {
-      Authorization: 'Bearer ' + localStorage.getItem('token'),
-    }
-  });
+  return Vue.prototype.$axios.get(`${endpoint}/user`);
 }
 
 export default {

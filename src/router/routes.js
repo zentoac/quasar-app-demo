@@ -62,6 +62,13 @@ const routes = [
           title: 'Edit Role',
         }
       },
+      {
+        path: '/medias',
+        component: () => import('pages/Media.vue'),
+        meta: {
+          title: 'Media',
+        }
+      },
     ]
   },
 

@@ -1,6 +1,6 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+    <q-header>
       <q-toolbar class="">
 
         <div class="absolute-left flex">
@@ -23,7 +23,7 @@
         <router-view  />
       </q-page-container>
 
-      <q-footer v-if="!offline && isLoggedIn()" elevated>
+      <q-footer v-if="!offline && isLoggedIn()">
         <tab-menu :menus="menus" />
       </q-footer>
     </div>
@@ -45,16 +45,17 @@ import authApi from "src/api/auth";
 
 const menus = [
   {
-    title: 'Home',
-    caption: 'Home',
-    icon: 'house',
-    to: '/'
-  },
-  {
     title: 'Users',
     caption: 'Users listing',
     icon: 'group',
     to: '/users'
+  },
+  {
+    title: 'Home',
+    caption: 'Home',
+    icon: 'house',
+    to: '/',
+    class: 'main absolute-center'
   },
   {
     title: 'Roles',
@@ -62,6 +63,12 @@ const menus = [
     icon: 'label',
     to: '/roles'
   },
+  // {
+  //   title: 'Media',
+  //   caption: 'Media',
+  //   icon: 'play_circle_filled',
+  //   to: '/medias'
+  // },
 ];
 
 export default {

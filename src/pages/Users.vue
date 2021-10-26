@@ -46,7 +46,8 @@ export default {
       done();
     },
     async getUsers() {
-      this.users = await apiParser.parseResponse(userApi.getUsers());
+      const response = await apiParser.parseResponse(userApi.getUsers());
+      this.users = response.data.items;
     },
     createUser() {
       this.$router.push('/create-user');

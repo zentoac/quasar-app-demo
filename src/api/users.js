@@ -1,26 +1,21 @@
-import {axiosInstance} from '../boot/axios'
+import Vue from "vue";
 
 const endpoint = '/users';
-const config = {
-  headers: {
-    Authorization: 'Bearer ' + localStorage.getItem('token'),
-  }
-};
 
 const getUsers = () => {
-  return axiosInstance.get(`${endpoint}`, config);
+  return Vue.prototype.$axios.get(`${endpoint}`);
 }
 
 const createUser = (user) => {
-  return axiosInstance.post(`${endpoint}`, user, config);
+  return Vue.prototype.$axios.post(`${endpoint}`, user);
 }
 
 const updateUser = (user) => {
-  return axiosInstance.put(`${endpoint}`, user, config);
+  return Vue.prototype.$axios.put(`${endpoint}`, user);
 }
 
 const deleteUser = (id) => {
-  return axiosInstance.delete(`${endpoint}/${id}`, config);
+  return Vue.prototype.$axios.delete(`${endpoint}/${id}`);
 }
 
 export default {
